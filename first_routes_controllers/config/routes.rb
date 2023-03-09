@@ -32,6 +32,9 @@ Rails.application.routes.draw do
   resources :artworks, only: [:create, :show, :update, :post, :destroy]
   resources :artwork_shares, only: [:create, :destroy]
 
+  resources :comments, only: [:create, :destroy, :index]
+  
+  get 'users/:user_id/comments', to: 'comments#index', as: 'user_comments'
 
-
+  get 'artworks/:artwork_id/comments', to: 'comments#index', as: 'artwork_comments'
 end

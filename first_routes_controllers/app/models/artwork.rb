@@ -18,17 +18,17 @@ class Artwork < ApplicationRecord
 
     has_many :artwork_shares,
         foreign_key: :artwork_id,
-        class_name: :ArtworkShare
+        class_name: :ArtworkShare,
+        dependent: :destroy
 
     has_many :shared_viewers,
         through: :artwork_shares,
         source: :viewer
 
-    # def self.artworks_for_user_id
-    #     Artwork
-    #         .join(:shared_viewers)
-    #         .pluck("users.id")
-    # end
+    has_many :comments,
+        foreign_key: :artwork_id,
+        class_name: :Comment,
+        dependent: :destroy
 
     def self.artworks_for_user_id(user_id)
         shared_art = Artwork

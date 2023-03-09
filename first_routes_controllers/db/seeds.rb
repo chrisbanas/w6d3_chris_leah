@@ -15,9 +15,10 @@ ActiveRecord::Base.transaction do
     User.destroy_all
     Artwork.destroy_all
     ArtworkShare.destroy_all
+    Comment.destroy_all
 
     puts 'Resetting id sequences...'
-    %w(users artworks artwork_shares).each do |table_name|
+    %w(users artworks artwork_shares comments).each do |table_name|
         ApplicationRecord.connection.reset_pk_sequence!(table_name)
     end
 
@@ -123,6 +124,48 @@ share6 = ArtworkShare.create(
 share7 = ArtworkShare.create(
     artwork_id: art7.id,
     viewer_id: darren.id
+)
+
+comment1 = Comment.create(
+    body: "comment1",
+    author_id: chris.id,
+    artwork_id: art1.id
+)
+
+comment2 = Comment.create(
+    body: "comment2",
+    author_id: leah.id,
+    artwork_id: art2.id
+)
+
+comment3 = Comment.create(
+    body: "comment3",
+    author_id: darren.id,
+    artwork_id: art3.id
+)
+
+comment4 = Comment.create(
+    body: "comment4",
+    author_id: taylor.id,
+    artwork_id: art4.id
+)
+
+comment5 = Comment.create(
+    body: "comment5",
+    author_id: diego.id,
+    artwork_id: art5.id
+)
+
+comment6 = Comment.create(
+    body: "comment6",
+    author_id: diego.id,
+    artwork_id: art3.id
+)
+
+comment7 = Comment.create(
+    body: "comment7",
+    author_id: leah.id,
+    artwork_id: art1.id
 )
 
 puts "Done with #{Rails.env} environment!"
