@@ -1,6 +1,12 @@
 class ArtworksController < ApplicationController
     def index
-        render json: Artwork.all
+        if params[:user_id] # < this is the wildcard
+            artworks = Artwork.artworks_for_user_id(params[:user_id])
+            render json: artworks
+        else
+            artworks = Artwork.all
+            render json: artworks
+        end
     end
 
     def create
