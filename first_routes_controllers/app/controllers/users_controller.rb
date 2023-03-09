@@ -8,7 +8,7 @@ class UsersController < ApplicationController
 
         # user[name] < how it gets passed to postman so when the params returns it will be a nested object {"user"=>{"name"=>"darren", "email"=>"darren@gmail.com"}}
 
-        user = User.new(params.require(:user).permit(:name, :email))
+        user = User.new(params.require(:user).permit(:username))
         if user.save # < with or without the ! it will save to the database
             render json: user
         else
@@ -43,7 +43,7 @@ class UsersController < ApplicationController
     private
 
     def user_params
-        params.require(:user).permit(:email) # < we are going to require certain params in this user
+        params.require(:user).permit(:username) # < we are going to require certain params in this user
     end
 
 
