@@ -6,52 +6,69 @@
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
 
+# rails db:seed:replant - replants the database if you want to update it
 
-chris = User.new(
+ActiveRecord::Base.transaction do
+    puts "Preparing #{Rails.env} environment"
+
+    puts 'Destroying tables...'
+    User.destroy_all
+    Artwork.destroy_all
+    ArtworkShare.destroy_all
+
+    puts 'Resetting id sequences...'
+    %w(users artworks artwork_shares).each do |table_name|
+        ApplicationRecord.connection.reset_pk_sequence!(table_name)
+    end
+
+# when seeding must use .create instead of .new otherwise the data does not get created in the database
+
+puts 'Creating seed data...'
+chris = User.create(
     username: "chris"
 )
 
-leah = User.new(
+leah = User.create(
     username: "leah"
 )
 
-darren = User.new(
+darren = User.create(
     username: "darren"
 )
 
-taylor = User.new(
+taylor = User.create(
     username: "taylor"
 )
 
-diego = User.new(
+diego = User.create(
     username: "diego"
 )
 
-art1 = Artwork.new(
+art1 = Artwork.create(
     title: "art1",
     image_url: "www.art1.com",
     artist_id: chris.id
 )
 
-art2 = Artwork.new(
+art2 = Artwork.create(
     title: "art2",
     image_url: "www.art2.com",
     artist_id: leah.id
 )
 
-art3 = Artwork.new(
+art3 = Artwork.create(
     title: "art3",
     image_url: "www.art3.com",
     artist_id: darren.id
 )
 
-art4 = Artwork.new(
+art4 = Artwork.create(
     title: "art4",
     image_url: "www.art4.com",
     artist_id: taylor.id
 )
 
-art5 = Artwork.new(
+art5 = Artwork.create(
     title: "art5",
     image_url: "www.art5.com",
     artist_id: diego.id
@@ -59,14 +76,55 @@ art5 = Artwork.new(
 
 # this is tagging art5 with three different artists
 
-art6 = Artwork.new(
+art6 = Artwork.create(
     title: "art5",
     image_url: "www.art6.com",
     artist_id: chris.id
 )
 
-art7 = Artwork.new(
+art7 = Artwork.create(
     title: "art5",
     image_url: "www.art7.com",
     artist_id: leah.id
 )
+
+# artwork shares
+
+share1 = ArtworkShare.create(
+    artwork_id: art1.id,
+    viewer_id: leah.id
+)
+
+share2 = ArtworkShare.create(
+    artwork_id: art2.id,
+    viewer_id: chris.id
+)
+
+share3 = ArtworkShare.create(
+    artwork_id: art3.id,
+    viewer_id: diego.id
+)
+
+share4 = ArtworkShare.create(
+    artwork_id: art4.id,
+    viewer_id: taylor.id
+)
+
+share5 = ArtworkShare.create(
+    artwork_id: art5.id,
+    viewer_id: darren.id
+)
+
+share6 = ArtworkShare.create(
+    artwork_id: art6.id,
+    viewer_id: leah.id
+)
+
+share7 = ArtworkShare.create(
+    artwork_id: art7.id,
+    viewer_id: darren.id
+)
+
+puts "Done with #{Rails.env} environment!"
+
+end
