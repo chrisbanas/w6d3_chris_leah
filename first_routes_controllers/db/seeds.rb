@@ -16,9 +16,10 @@ ActiveRecord::Base.transaction do
     Artwork.destroy_all
     ArtworkShare.destroy_all
     Comment.destroy_all
+    Like.destroy_all
 
     puts 'Resetting id sequences...'
-    %w(users artworks artwork_shares comments).each do |table_name|
+    %w(users artworks artwork_shares comments likes).each do |table_name|
         ApplicationRecord.connection.reset_pk_sequence!(table_name)
     end
 
@@ -167,6 +168,30 @@ comment7 = Comment.create(
     author_id: leah.id,
     artwork_id: art1.id
 )
+
+like1 = Like.create(
+    liker_id: chris.id,
+    likeable_type: Artwork,
+    likeable_id: art1.id
+)
+
+# like2 = Like.create(
+#     liker_id: leah.id,
+#     likeable_type: :string,
+#     likeable_id: art2.id
+# )
+
+# like3 = Like.create(
+#     liker_id: darren.id,
+#     likeable_type: :string,
+#     likeable_id: comment1.id
+# )
+
+# like4 = Like.create(
+#     liker_id: taylor.id,
+#     likeable_type: 'user',
+#     likeable_id: user1.id
+# )
 
 puts "Done with #{Rails.env} environment!"
 

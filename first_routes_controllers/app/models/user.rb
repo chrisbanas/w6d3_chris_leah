@@ -31,4 +31,9 @@ class User < ApplicationRecord
         foreign_key: :author_id,
         class_name: :Comment,
         dependent: :destroy
+    
+    has_many :likes, as: :likeable,
+        foreign_key: :liker_id,
+        class_name: :Like
+
 end 

@@ -20,6 +20,8 @@ class Comment < ApplicationRecord
         foreign_key: :artwork_id,
         class_name: :Artwork
 
+    has_many :likes, as: :likeable
+
     def self.comments_for_user(id)
          Comment
             .where('author_id = (?)', id)

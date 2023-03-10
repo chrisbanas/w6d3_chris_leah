@@ -30,6 +30,8 @@ class Artwork < ApplicationRecord
         class_name: :Comment,
         dependent: :destroy
 
+    has_many :likes, as: :likeable
+
     def self.artworks_for_user_id(user_id)
         shared_art = Artwork
                         .joins(:shared_viewers)
