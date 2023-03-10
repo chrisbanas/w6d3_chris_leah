@@ -1,4 +1,9 @@
 class CommentsController < ApplicationController
+
+    # rails is smart and knows from the rails route so it can filter the if statement
+    # user_comments GET    /users/:user_id/comments(.:format)       comments#index
+    # artwork_comments GET    /artworks/:artwork_id/comments(.:format) comments#index
+
     def index
         if params[:user_id] # < this is the wildcard
             comments = Comment.comments_for_user(params[:user_id])

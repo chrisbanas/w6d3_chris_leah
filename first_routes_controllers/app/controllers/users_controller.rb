@@ -1,7 +1,16 @@
 
 class UsersController < ApplicationController
+
+    # we did not define a custom route for the below it is all done through the index function.
+    # http://localhost:3000/users?query=leah
+    # this is how it gets passed to postman to return the result. :query is the key and we set the value to the user that wer want to search. The params :query is taking in the value leah and passing that though as the key for username: in the user variable.
     def index
-        render json: User.all
+        user = User.find_by(username: params[:query])
+            if user && params[:query]
+                render json: user
+            else
+                render json: User.all
+            end
     end
 
     def create
